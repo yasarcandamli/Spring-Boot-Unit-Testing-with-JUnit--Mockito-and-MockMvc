@@ -4,7 +4,7 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
+// @DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
 class DemoUtilsTest {
 
     DemoUtils demoUtils;
@@ -15,7 +15,7 @@ class DemoUtilsTest {
     }
 
     @Test
-    //@DisplayName("Equals and Not Equals")
+    @DisplayName("Equals and Not Equals")
     void testEqualsAndNotEquals() {
 
         assertEquals(6, demoUtils.add(2, 4), "2 + 4 must be 6");
@@ -23,7 +23,7 @@ class DemoUtilsTest {
     }
 
     @Test
-    //@DisplayName("Null and Not Null")
+    @DisplayName("Null and Not Null")
     void testNullAndNotNull() {
 
         String str1 = null;
@@ -31,6 +31,26 @@ class DemoUtilsTest {
 
         assertNull(demoUtils.checkNull(str1), "Object should be null");
         assertNotNull(demoUtils.checkNull(str2), "Object should not be null");
+    }
+
+    @Test
+    @DisplayName("Same and Not Same")
+    void testSameAndNotSame() {
+
+        String str = "luv2code";
+        assertSame(demoUtils.getAcademy(), demoUtils.getAcademyDuplicate(), "Objects should refer to same object");
+        assertNotSame(str, demoUtils.getAcademyDuplicate(), "Objects should not refer to same object");
+    }
+
+    @Test
+    @DisplayName("True and False")
+    void testTrueFalse() {
+
+        int gradeOne = 10;
+        int gradeTwo = 5;
+
+        assertTrue(demoUtils.isGreater(gradeOne, gradeTwo), "This should return true");
+        assertFalse(demoUtils.isGreater(gradeTwo, gradeOne), "This should not return true");
     }
 
 /*
