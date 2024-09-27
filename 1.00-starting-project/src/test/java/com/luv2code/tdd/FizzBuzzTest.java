@@ -1,6 +1,8 @@
 package com.luv2code.tdd;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -48,5 +50,32 @@ class FizzBuzzTest {
         String expected = "1";
 
         assertEquals(expected, FizzBuzz.compute(1), "Should return 1");
+    }
+
+    @ParameterizedTest(name = "value={0}, expected={1}")
+    @CsvFileSource(resources = "/small-test-data.csv")
+    @DisplayName("Testing with small data file")
+    @Order(5)
+    void testSmallDataFile(int value, String expected) {
+
+        assertEquals(expected, FizzBuzz.compute(value));
+    }
+
+    @ParameterizedTest(name = "value={0}, expected={1}")
+    @CsvFileSource(resources = "/medium-test-data.csv")
+    @DisplayName("Testing with medium data file")
+    @Order(6)
+    void testMediumDataFile(int value, String expected) {
+
+        assertEquals(expected, FizzBuzz.compute(value));
+    }
+
+    @ParameterizedTest(name = "value={0}, expected={1}")
+    @CsvFileSource(resources = "/large-test-data.csv")
+    @DisplayName("Testing with large data file")
+    @Order(7)
+    void testLargeDataFile(int value, String expected) {
+
+        assertEquals(expected, FizzBuzz.compute(value));
     }
 }
