@@ -10,4 +10,5 @@ import javax.transaction.Transactional;
 @Transactional
 public interface StudentDao extends CrudRepository<CollegeStudent, Integer> {
 
+    public CollegeStudent findByEmailAddress(String emailAddress);
 }
