@@ -21,10 +21,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @TestPropertySource("/application-test.properties")
 @AutoConfigureMockMvc
@@ -91,7 +95,7 @@ public class GradebookControllerTest {
     @Value("${sql.script.delete.history.grade}")
     private String sqlDeleteHistoryGrade;
 
-    public static final MediaType APPLICATION_JSON_TUF8 = MediaType.APPLICATION_JSON;
+    public static final MediaType APPLICATION_JSON_UTF8 = MediaType.APPLICATION_JSON;
 
     @BeforeAll
     public static void setup() {
@@ -111,7 +115,20 @@ public class GradebookControllerTest {
         jdbc.execute(sqlAddHistoryGrade);
     }
 
+    @Test
+    public void getStudentsHttpRequest() throws Exception {
 
+        student.setFirstname("Chad");
+        student.setLastname("Darby");
+        student.setEmailAddress("chad.darby@luv2code_school.com");
+        entityManager.persist(student);
+        entityManager.flush();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
 
     @AfterEach
     public void setupAfterTransaction() {
