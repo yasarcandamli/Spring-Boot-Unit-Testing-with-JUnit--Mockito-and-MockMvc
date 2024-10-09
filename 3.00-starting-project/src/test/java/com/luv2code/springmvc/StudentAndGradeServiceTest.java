@@ -41,6 +41,7 @@ public class StudentAndGradeServiceTest {
 
     @Autowired
     private ScienceGradesDao scienceGradesDao;
+
     @Autowired
     private HistoryGradesDao historyGradesDao;
 
@@ -51,7 +52,7 @@ public class StudentAndGradeServiceTest {
     private String sqlAddMathGrade;
 
     @Value("${sql.script.create.science.grade}")
-    private String sqlAddScienceGarde;
+    private String sqlAddScienceGrade;
 
     @Value("${sql.script.create.history.grade}")
     private String sqlAddHistoryGrade;
@@ -67,6 +68,14 @@ public class StudentAndGradeServiceTest {
 
     @Value("${sql.script.delete.history.grade}")
     private String sqlDeleteHistoryGrade;
+
+    @BeforeEach
+    public void setupDatabase() {
+        jdbc.execute(sqlAddStudent);
+        jdbc.execute(sqlAddMathGrade);
+        jdbc.execute(sqlAddScienceGrade);
+        jdbc.execute(sqlAddHistoryGrade);
+    }
 
     @Test
     public void createStudentService() {
@@ -197,9 +206,9 @@ public class StudentAndGradeServiceTest {
 
     @AfterEach
     public void setupAfterTransaction() {
-        jdbc.execute("DELETE FROM student");
-        jdbc.execute("DELETE FROM math_grade");
-        jdbc.execute("DELETE FROM science_grade");
-        jdbc.execute("DELETE FROM history_grade");
+        jdbc.execute(sqlDeleteStudent);
+        jdbc.execute(sqlDeleteMathGrade);
+        jdbc.execute(sqlDeleteScienceGrade);
+        jdbc.execute(sqlDeleteHistoryGrade);
     }
 }
