@@ -261,7 +261,7 @@ public class GradebookControllerTest {
         assertTrue(mathGrade.isPresent());
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                .get("/grades/{id}/{gradeType}", 1, "math"))
+                        .get("/grades/{id}/{gradeType}", 1, "math"))
                 .andExpect(status().isOk()).andReturn();
 
         ModelAndView mav = mvcResult.getModelAndView();
@@ -271,6 +271,21 @@ public class GradebookControllerTest {
         mathGrade = mathGradesDao.findById(1);
 
         assertFalse(mathGrade.isPresent());
+    }
+
+    @Test
+    public void deleteAValidGradeHttpRequestStudentIdDoesNotExistEmptyResponse() throws Exception {
+        Optional<MathGrade> mathGrade = mathGradesDao.findById(2);
+
+        assertFalse(mathGrade.isPresent());
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .get("/grades/{id}/{gradeType}", 2, "math"))
+                .andExpect(status().isOk()).andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+
+        ModelAndViewAssert.assertViewName(mav, "error");
     }
 
     @AfterEach
